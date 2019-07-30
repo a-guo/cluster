@@ -1,0 +1,49 @@
+{
+  "nodes": {
+    "cluster-master": {
+      ":guest": "8000",
+      ":host": "8021",
+      "ports": [],
+      ":memory": 2048,
+      ":os_image": "precise64",
+      ":provisioner": "bash_script",
+      ":bootstrap": "splunk.sh"
+    },
+    "search-head": {
+      ":guest": "8000",
+      ":host": "8022",
+      "ports": [],
+      ":memory": 2048,
+      ":os_image": "precise64",
+      ":provisioner": "bash_script",
+      ":bootstrap": "splunk.sh"
+    },
+    "indexer-1": {
+      ":guest": "8000",
+      ":host": "8023",
+      "ports": [],
+      ":memory": 2048,
+      ":os_image": "precise64",
+      ":provisioner": "bash_script",
+      ":bootstrap": "splunk.sh"
+    },
+    "indexer-2": {
+      ":guest": "8000",
+      ":host": "8024",
+      "ports": [],
+      ":memory": 2048,
+      ":os_image": "precise64",
+      ":provisioner": "bash_script",
+      ":bootstrap": "splunk.sh"
+    },
+    "indexer-3": {
+      ":guest": "8000",
+      ":host": "8025",
+      "ports": [],
+      ":memory": 2048,
+      ":os_image": "precise64",
+      ":provisioner": "bash_script",
+      ":bootstrap": "splunk.sh"
+    }
+ }
+}
