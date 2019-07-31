@@ -7,7 +7,7 @@
       ":memory": 2048,
       ":os_image": "precise64",
       ":provisioner": "bash_script",
-      ":bootstrap": "splunk.sh"
+      ":bootstrap": "provision/cm.sh"
     },
     "search-head": {
       ":guest": "8000",
@@ -16,7 +16,7 @@
       ":memory": 2048,
       ":os_image": "precise64",
       ":provisioner": "bash_script",
-      ":bootstrap": "splunk.sh"
+      ":bootstrap": "provision/sh.sh"
     },
     "indexer-1": {
       ":guest": "8000",
@@ -25,7 +25,7 @@
       ":memory": 2048,
       ":os_image": "precise64",
       ":provisioner": "bash_script",
-      ":bootstrap": "splunk.sh"
+      ":bootstrap": "provision/idx.sh"
     },
     "indexer-2": {
       ":guest": "8000",
@@ -34,7 +34,7 @@
       ":memory": 2048,
       ":os_image": "precise64",
       ":provisioner": "bash_script",
-      ":bootstrap": "splunk.sh"
+      ":bootstrap": "provision/idx.sh"
     },
     "indexer-3": {
       ":guest": "8000",
@@ -43,7 +43,7 @@
       ":memory": 2048,
       ":os_image": "precise64",
       ":provisioner": "bash_script",
-      ":bootstrap": "splunk.sh"
+      ":bootstrap": "provision/idx.sh"
     }
  }
 }

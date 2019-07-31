@@ -35,6 +35,15 @@ USERNAME = admin
 PASSWORD = changeme
 EOF
 
+cat > $SPLUNK_HOME/etc/system/local/server.conf << EOF
+[clustering]
+mode = master
+replication_factor = 3
+search_factor = 2
+pass4SymmKey = whatever
+cluster_label = cluster1
+EOF
+
 echo "Starting Splunk"
 ./splunk start --accept-license --answer-yes
 
