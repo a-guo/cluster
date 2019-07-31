@@ -41,7 +41,7 @@ cat >$SPLUNK_HOME/etc/system/local/server.conf << EOF
 [replication_port://8025]
 
 [clustering]
-master_uri = https://localhost:8021
+master_uri = https://10.16.97.44:8021
 mode = slave
 pass4SymmKey = whatever
 EOF
@@ -49,4 +49,4 @@ EOF
 echo "Starting Splunk"
 ./splunk start --accept-license --answer-yes
 
-echo "Splunk is available on http://localhost:8011 or http://localhost:8012"
+echo "Splunk is available on http://localhost:8023-25"

@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "cluster-master": {
+    "cm": {
       ":guest": "8000",
       ":host": "8021",
       "ports": [],
@@ -9,7 +9,7 @@
       ":provisioner": "bash_script",
       ":bootstrap": "provision/cm.sh"
     },
-    "search-head": {
+    "sh": {
       ":guest": "8000",
       ":host": "8022",
       "ports": [],
@@ -18,7 +18,7 @@
       ":provisioner": "bash_script",
       ":bootstrap": "provision/sh.sh"
     },
-    "indexer-1": {
+    "ind1": {
       ":guest": "8000",
       ":host": "8023",
       "ports": [],
@@ -27,7 +27,7 @@
       ":provisioner": "bash_script",
       ":bootstrap": "provision/idx.sh"
     },
-    "indexer-2": {
+    "ind2": {
       ":guest": "8000",
       ":host": "8024",
       "ports": [],
@@ -36,7 +36,7 @@
       ":provisioner": "bash_script",
       ":bootstrap": "provision/idx.sh"
     },
-    "indexer-3": {
+    "ind3": {
       ":guest": "8000",
       ":host": "8025",
       "ports": [],
