@@ -5,7 +5,6 @@ sudo su -
 apt-get update > /dev/null 2>&1
 apt-get install -y wget > /dev/null 2>&1
 
-
 # add splunk user
 useradd -m -c "splunk user" splunk  -s /bin/bash
 
@@ -35,16 +34,40 @@ USERNAME = admin
 PASSWORD = changeme
 EOF
 
-cat > $SPLUNK_HOME/etc/system/local/server.conf << EOF
-[clustering]
-mode = master
-replication_factor = 3
-search_factor = 2
-pass4SymmKey = whatever
-cluster_label = cluster1
+echo "ssl"
+
+# cd $SPLUNK_HOME/etc/auth
+# mkdir mycerts
+cd $SPLUNK_HOME/etc/auth/mycerts
+openssl req -x509 -newkey rsa:4096 -keyout mySplunkWebPrivateKey.key -out mySplunkWebCertificate.pem -days 365 -nodes -subj '/CN=localhost'
+
+echo $(ls $SPLUNK_HOME/etc/system/local/)
+echo $(pwd)
+cd $SPLUNK_HOME/etc/system/local
+echo $(pwd)
+cd $SPLUNK_HOME/etc/system/local
+echo $(pwd)
+touch web.conf
+cat > $SPLUNK_HOME/etc/system/local/web.conf << EOF
+[settings]
+enableSplunkWebSSL = true
+privKeyPath = $SPLUNK_HOME/etc/auth/mycerts/mySplunkWebPrivateKey.key
+# Absolute paths may be used. non-absolute paths are relative to $SPLUNK_HOME
+
+serverCert = $SPLUNK_HOME/etc/auth/mycerts/mySplunkWebCertificate.pem
+# Absolute paths may be used. non-absolute paths are relative to $SPLUNK_HOME
 EOF
 
-echo "Starting Splunk"
-./splunk start --accept-license --answer-yes
+# cat > $SPLUNK_HOME/etc/system/local/server.conf << EOF
+# [clustering]
+# mode = master
+# replication_factor = 3
+# search_factor = 2
+# pass4SymmKey = whatever
+# cluster_label = cluster1
+# EOF
 
-echo "Splunk is available on http://localhost:8021"
+# echo "Starting Splunk"
+# ./splunk start --accept-license --answer-yes
+#
+# echo "Splunk is available on http://localhost:8021"
