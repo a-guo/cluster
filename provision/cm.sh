@@ -22,6 +22,10 @@ echo "untar the splunk"
 
 tar -xzvf splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz > /dev/null 2>&1 && chown -R splunk.splunk splunk > /dev/null 2>&1
 
+echo "chown splunk"
+sudo su -
+chown -R splunk:splunk /opt/splunk/
+
 echo "su splunk"
 
 su - splunk
@@ -34,40 +38,42 @@ USERNAME = admin
 PASSWORD = changeme
 EOF
 
-echo "ssl"
+echo "Starting Splunk"
+cd /opt/splunk/bin
+./splunk start --accept-license --answer-yes
 
-# cd $SPLUNK_HOME/etc/auth
-# mkdir mycerts
-cd $SPLUNK_HOME/etc/auth/mycerts
-openssl req -x509 -newkey rsa:4096 -keyout mySplunkWebPrivateKey.key -out mySplunkWebCertificate.pem -days 365 -nodes -subj '/CN=localhost'
+echo "Splunk is available on http://localhost:8021"
 
-echo $(ls $SPLUNK_HOME/etc/system/local/)
-echo $(pwd)
-cd $SPLUNK_HOME/etc/system/local
-echo $(pwd)
-cd $SPLUNK_HOME/etc/system/local
-echo $(pwd)
-touch web.conf
-cat > $SPLUNK_HOME/etc/system/local/web.conf << EOF
+echo "SSL"
+cd /opt/splunk/etc/auth
+mkdir mycerts
+cd mycerts
+openssl req -x509 -newkey rsa:4096 -keyout mySplunkWebPrivateKey.pem -out mySplunkWebCertificate.pem -days 365 -nodes -subj '/CN=localhost' > /dev/null 2>&1
+
+cat > /opt/splunk/etc/system/local/web.conf << EOF
 [settings]
 enableSplunkWebSSL = true
-privKeyPath = $SPLUNK_HOME/etc/auth/mycerts/mySplunkWebPrivateKey.key
-# Absolute paths may be used. non-absolute paths are relative to $SPLUNK_HOME
+privKeyPath = /opt/splunk/etc/auth/mycerts/mySplunkWebPrivateKey.pem
 
-serverCert = $SPLUNK_HOME/etc/auth/mycerts/mySplunkWebCertificate.pem
-# Absolute paths may be used. non-absolute paths are relative to $SPLUNK_HOME
+serverCert = /opt/splunk/etc/auth/mycerts/mySplunkWebCertificate.pem
 EOF
 
-# cat > $SPLUNK_HOME/etc/system/local/server.conf << EOF
-# [clustering]
-# mode = master
-# replication_factor = 3
-# search_factor = 2
-# pass4SymmKey = whatever
-# cluster_label = cluster1
-# EOF
+less /opt/splunk/etc/system/local/web.conf
 
-# echo "Starting Splunk"
-# ./splunk start --accept-license --answer-yes
-#
-# echo "Splunk is available on http://localhost:8021"
+echo "CM config"
+cat > /opt/splunk/etc/system/local/server.conf << EOF
+[clustering]
+mode = master
+replication_factor = 3
+search_factor = 2
+pass4SymmKey = whatever
+cluster_label = cluster1
+EOF
+
+less /opt/splunk/etc/system/local/server.conf
+
+echo "Restart Splunk"
+cd /opt/splunk/bin
+./splunk restart --accept-license --answer-yes
+
+echo "Splunk is available on http://localhost:8021"
