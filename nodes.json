@@ -26,24 +26,6 @@
       ":os_image": "precise64",
       ":provisioner": "bash_script",
       ":bootstrap": "provision/idx.sh"
-    },
-    "ind2": {
-      ":guest": "8000",
-      ":host": "8024",
-      "ports": [],
-      ":memory": 2048,
-      ":os_image": "precise64",
-      ":provisioner": "bash_script",
-      ":bootstrap": "provision/idx.sh"
-    },
-    "ind3": {
-      ":guest": "8000",
-      ":host": "8025",
-      "ports": [],
-      ":memory": 2048,
-      ":os_image": "precise64",
-      ":provisioner": "bash_script",
-      ":bootstrap": "provision/idx.sh"
     }
  }
 }
