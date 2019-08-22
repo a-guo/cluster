@@ -23,6 +23,10 @@ echo "untar the splunk"
 
 tar -xzvf splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz > /dev/null 2>&1 && chown -R splunk.splunk splunk > /dev/null 2>&1
 
+echo "chown splunk"
+sudo su -
+chown -R splunk:splunk /opt/splunk/
+
 echo "su splunk"
 
 su - splunk
@@ -35,18 +39,25 @@ USERNAME = admin
 PASSWORD = changeme
 EOF
 
-cat >$SPLUNK_HOME/etc/system/local/server.conf << EOF
+echo "Starting Splunk"
+./splunk start --accept-license --answer-yes
+
+echo "Splunk is available on http://localhost:8023"
+
+echo "Indexer config"
+cat > /opt/splunk/etc/system/local/server.conf << EOF
 [replication_port://8023]
-[replication_port://8024]
-[replication_port://8025]
 
 [clustering]
-master_uri = https://10.16.97.44:8021
+master_uri = https://127.0.0.1:8021
 mode = slave
 pass4SymmKey = whatever
 EOF
 
-echo "Starting Splunk"
-./splunk start --accept-license --answer-yes
+less /opt/splunk/etc/system/local/server.conf
 
-echo "Splunk is available on http://localhost:8023-25"
+echo "Restart Splunk"
+cd /opt/splunk/bin/splunk
+./splunk restart --accept-license --answer-yes
+
+echo "Splunk is available on http://localhost:8023"
